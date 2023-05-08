@@ -17,7 +17,7 @@
      <h2 style="margin: 20px;"> Book a Call </h2>
      <p style="margin: 20px;"> Book a call slot and our representatives will call you within 1 hour of the selected time </p>
      <hr> 
-     <form action="#" onsubmit="bookAppointment()" novalidate style="margin: 20px;"><b></b>
+     <form id="addForm" action="#" onsubmit="bookAppointment()" novalidate style="margin: 20px;"><b></b>
          <b> Name: &nbsp; <input type="text" id="name" class="form-control" placeholder="Enter Your Name"> </b>
          <br> <br>
          <b> E-mail ID: &nbsp; <input type="text" id="mail" class="form-control" placeholder="Enter Your E-mail ID"> </b>
@@ -26,11 +26,13 @@
          <br> <br>
          <b> Contact Number: &nbsp; <input type="text" id="phone" class="form-control" placeholder="Enter Your Contact Number"> </b>
          <br> <br> 
-         <b> Time For Call: <input type="date" id="date" class="form-control"> <input type="time" id="time" class="form-control"> </b>
-         <br> <br> 
-         <button class="btn btn-primary"> Get a Call </button>
-         <!-- <input type="submit" value="Get a Call"> -->
+         <b> Time For Call: <input type="date" id="date" class="form-control"> <br> <input type="time" id="time" class="form-control"> </b> <br>
+         <input type="submit" class="btn btn-primary" value="Get a Call">
      </form>
+
+      <ul id="items" class="list-group">
+         <li class="list-group-item"></li>
+      </ul>
      </div>
      </fieldset>
 
@@ -44,9 +46,9 @@
          const phone = document.getElementById("phone").value;
          // localStorage.setItem("Phone Number", phone);
          const date = document.getElementById("date").value;
-         // localStorage.setItem("Appointment Date", date);
+         // // localStorage.setItem("Appointment Date", date);
          const time = document.getElementById("time").value;
-         // localStorage.setItem("Appointment Time", time);
+         // // localStorage.setItem("Appointment Time", time);
 
          let myObj = {
             Name: name,
@@ -57,20 +59,51 @@
          };
 
          let myObj_serialized = JSON.stringify(myObj);
-         localStorage.setItem("myObj", myObj_serialized);
-         let myObj_deserialized = JSON.parse(localStorage.getItem("myobj"));
-         console.log(myObj_deserialized);
+         localStorage.setItem(mail, myObj_serialized);
+         let myObj_deserialized = JSON.parse(localStorage.getItem(mail));
+         alert("Appointment Booked");
       }
 
-      const form = document.querySelector("form")
-      form.addEventListener('submit', e =>
-      {
-         if (!form.checkValidity())
+         var newForm = document.getElementById('addForm');
+         var itemList = document.getElementById('items');
+
+         newForm.addEventListener('submit', addItem);
+
+         function addItem(e)
          {
-            e.preventDefault()
+            e.preventDefault();
+
+            // Get input value
+            var newName = document.getElementById('name').value;
+            var newMail = document.getElementById('mail').value;
+            var newPhone = document.getElementById('phone').value;
+            var newDate = document.getElementById('date').value;
+            var newTime = document.getElementById('time').value;
+
+            // Create new li element
+            var li = document.createElement('li');
+
+            // Add class
+            li.className = 'list-group-item';
+
+            // Add text node with input value
+            li.appendChild(document.createTextNode(newName + " - " + newMail + " - " + newPhone + " - " + newDate + " - " + newTime)); 
+            
+
+            // Append li to list
+            itemList.appendChild(li);  
          }
-         form.classList.add('was-validated')
-      })
+
+      // const form = document.querySelector("form")
+      // form.addEventListener('submit', e =>
+      // {
+      //    if (!form.checkValidity())
+      //    {
+      //       e.preventDefault()
+      //    }
+      //    form.classList.add('was-validated')
+      // })
+
      </script>
 
   </body>
